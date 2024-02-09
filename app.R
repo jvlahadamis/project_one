@@ -9,45 +9,60 @@ ui <- fluidPage(
     titlePanel("Stock Price Visualization with Bollinger Bands"),
     sidebarLayout(
         sidebarPanel(
-            textInput("stockSymbol", "Enter Stock Symbol", value = "AAPL"),
-            dateRangeInput("dateRange", "Date Range",
-                           start = Sys.Date() - 365, end = Sys.Date()),
-            numericInput("n", "SMA Period", value = 20)
+            textInput(inputId = "first", 
+                      label = "Enter first name",
+                      value = "test"),
+            
+            textInput(inputId = "last", 
+                      label = "Enter last name",
+                      value = "test"),
+            
+            textInput(inputId = "pickup", 
+                      label = "Enter pickup location",
+                      value = "test"),
+            
+            textInput(inputId = "dropoff", 
+                      label = "Enter dropoff location",
+                      value = "test"),
+            
         ),
         mainPanel(
-            plotlyOutput("stockPlot")
+            textOutput("output_text")
         )
-    )
+    ),
+    actionButton(inputId = "go", 
+                 label = "test")
 )
 
 # Define Server Logic
 server <- function(input, output) {
-    output$stockPlot <- renderPlotly({
-        symbol <- input$stockSymbol
-        dates <- input$dateRange
-        n <- input$n
-
-        stock_data <- tq_get(symbol, from = dates[1], to = dates[2]) %>%
-                      select(date, adjusted)
-
-        # Calculate Bollinger Bands
-        bands <- BBands(stock_data$adjusted, n = n, sd = 2)
-
-        # Combine data
-        stock_data <- cbind(stock_data, bands)
-
-        # Plot with Plotly
-        p <- plot_ly(x = ~stock_data$date, y = ~stock_data$adjusted, type = 'scatter', mode = 'lines', name = 'Adjusted') %>%
-            add_lines(x = ~stock_data$date, y = ~stock_data$dn, name = 'Lower Band', line = list(dash = 'dash')) %>%
-            add_lines(x = ~stock_data$date, y = ~stock_data$mavg, name = 'SMA', line = list(dash = 'dot')) %>%
-            add_lines(x = ~stock_data$date, y = ~stock_data$up, name = 'Upper Band', line = list(dash = 'dash')) %>%
-            layout(title = paste("Stock Prices with Bollinger Bands for", symbol),
-                   xaxis = list(title = "Date"),
-                   yaxis = list(title = "Price"))
-
-        return(p)
-    })
+    
+  connection_string = 'mongodb+srv://vlahadam:AlyS3ObBXgjba7OI@cluster0.ecrrnuo.mongodb.net/?retryWrites=true&w=majority'
+  
+  
+  #this object will push to a collection and database. Collection creates a new collection within the db specified
+  m <- mongolite::mongo(collection = "hhhhhhh",
+                        db = "hhhhhhh",
+                        url= connection_string)
+  
+  first <- reactive(input$first)
+  last <- reactive(input$last)
+  pickup <- reactive(input$pickup)
+  dropoff <- reactive(input$dropoff)
+  
+  
+  dataframe <- data.frame(first = first, 
+                      last = last, 
+                      pickup = pickup, 
+                      dropoff = dropoff)
+  
+  
+  
+  output <- eventReactive(eventExpr = input$go,
+                         valueExpr = {m$insert(dataframe)})
+  output
 }
+  
 
 # Run the App
 shinyApp(ui = ui, server = server)

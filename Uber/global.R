@@ -1,6 +1,3 @@
-
-
-
 library(tidyverse)
 library(rvest)
 sn <- rvest::read_html("https://en.wikipedia.org/wiki/List_of_neighbourhoods_in_Edmonton#List") %>% 

@@ -1,7 +1,6 @@
 library(shiny)
 library(tidyverse)
 
-
 ui <- fluidPage(
   titlePanel("Uber Pool"),
   sidebarLayout(

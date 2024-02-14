@@ -20,9 +20,10 @@ ui <- fluidPage(
       
       actionButton(inputId = "click", 
                    label = "send to mongo")),
-      
+    
     mainPanel(
-      dataTableOutput("table"))
-    ),
- 
+      dataTableOutput("table"),
+      textOutput("filtered_row_count"))
+  ),
+  
 )

@@ -4,7 +4,7 @@ server <- function(input, output) {
   # Initialize the connection to the MongoDB
   m <- mongolite::mongo(collection = "project_one",
                         db = "project_one",
-                        url = 'mongodb+srv://raolson:PasswordPassword@projectonedatabase.eyzpjva.mongodb.net')
+                        url = connection_string)
   
   # Define reactive inputs for user input fields
   first <- reactive({ input$first })

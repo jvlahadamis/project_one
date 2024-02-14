@@ -1,6 +1,17 @@
 
 FROM --platform=linux/amd64 rocker/shiny-verse:latest
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y git \
+    libssl-dev \
+    libcurl4-gnutls-dev \
+    libxml2-dev \
+    libcurl4-doc \
+    libgnutls28-dev \
+    libidn11-dev \
+    libkrb5-dev \
+    libldap2-dev \
+    librtmp-dev \
+    libssh2-1-dev \
+    icu-doc libssl-doc
 
 
 # Install from GitHub repository

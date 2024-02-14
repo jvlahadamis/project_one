@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y git
 
 
 # Install from GitHub repository
-RUN git clone https://github.com/jvlahadamis/project_one.git /srv/shiny-server/project_one
+RUN git clone https://github.com/jvlahadamis/project_one.git
 
 
 # Make the Shiny app available at port 3838

@@ -3,12 +3,14 @@ library(rvest)
 library(mongolite)
 library(shiny)
 library(DT)
+library(geosphere)
 
 connection_string <- "mongodb+srv://raolson:PasswordPassword@projectonedatabase.eyzpjva.mongodb.net/"
 nbhTemp <- mongolite::mongo(collection = "neighbourhoods",
                         db = "project_one",
                         url = connection_string)
 nbh <- as.data.frame(nbhTemp$find())
+nbhOnly <- nbh %>% dplyr::select(Neighbourhood)
 
 # Expression for calculating fare price, to mimic Uber's own pricing as the firm has not given API access
 calculateUberPrice <- function(distance_km, time_of_day) {

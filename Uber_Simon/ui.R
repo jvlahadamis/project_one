@@ -12,18 +12,19 @@ ui <- fluidPage(
       
       selectInput(inputId = "pickup", 
                   label = "Select pickup location", 
-                  choices = nbh),
+                  choices = nbhOnly),
       
       selectInput(inputId = "dropoff",
                   label = "Select dropoff location",
-                  choices = nbh),
+                  choices = nbhOnly),
       
       actionButton(inputId = "click", 
                    label = "send to mongo")),
     
     mainPanel(
       dataTableOutput("table"),
-      textOutput("filtered_row_count"))
+      textOutput("filtered_row_count"),
+      uiOutput("distance"))
   ),
   
 )

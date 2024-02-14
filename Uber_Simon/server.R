@@ -2,7 +2,7 @@
 server <- function(input, output) {
   
   # Initialize the connection to the MongoDB
-  m <- mongolite::mongo(collection = "project_one",
+  m <- mongolite::mongo(collection = "simulatedUsers",
                         db = "project_one",
                         url = connection_string)
   
@@ -10,7 +10,19 @@ server <- function(input, output) {
   first <- reactive({ input$first })
   last <- reactive({ input$last })
   pickup <- reactive({ input$pickup })
+  pickupLat <- reactive({nbh %>% 
+                          dplyr::filter(Neighbourhood == input$pickup) %>% 
+                          dplyr::select(Latitude)})
+  pickupLong <- reactive({nbh %>% 
+                           dplyr::filter(Neighbourhood == input$pickup) %>% 
+                           dplyr::select(Longitude)})
   dropoff <- reactive({ input$dropoff })
+  dropoffLat <- reactive({nbh %>% 
+                           dplyr::filter(Neighbourhood == input$dropoff) %>% 
+                           dplyr::select(Latitude)})
+  dropoffLong <- reactive({nbh %>% 
+                           dplyr::filter(Neighbourhood == input$dropoff) %>% 
+                           dplyr::select(Longitude)})
   
   # Define a reactive expression to filter the data based on user input
   filtered_data <- reactive({
@@ -26,6 +38,14 @@ server <- function(input, output) {
     data
   })
   
+  distance <- reactive({
+   d1 <- geosphere::distm(c(as.numeric(pickupLong()), as.numeric(pickupLat())), 
+                     c(as.numeric(dropoffLong()), as.numeric(dropoffLat())),
+                     fun = distHaversine)
+   d1[1, 1]
+  })
+
+  output$distance <- renderUI({distance()})
   # Define a reactive expression to count the number of rows in filtered data
   filtered_row_count <- reactive({
     nrow(filtered_data())

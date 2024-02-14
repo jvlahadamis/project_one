@@ -69,3 +69,5 @@ server <- function(input, output) {
     paste("Number of rows after filtering:", filtered_row_count())
   })
 }
+
+shinyApp(ui = ui, server = server)

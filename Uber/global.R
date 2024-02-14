@@ -1,6 +1,7 @@
 library(tidyverse)
 library(rvest)
 library(mongolite)
+library(shiny)
 
 connection_string <- "mongodb+srv://raolson:PasswordPassword@projectonedatabase.eyzpjva.mongodb.net/"
 nbhTemp <- mongolite::mongo(collection = "neighbourhoods",

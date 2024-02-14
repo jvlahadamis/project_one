@@ -1,6 +1,3 @@
-library(shiny)
-library(tidyverse)
-
 ui <- fluidPage(
   titlePanel("Uber Pool"),
   sidebarLayout(
@@ -12,7 +9,6 @@ ui <- fluidPage(
       textInput(inputId = "last", 
                 label = "Enter last name",
                 value = ""),
-      
       
       selectInput(inputId = "pickup", 
                   label = "Select pickup location", 

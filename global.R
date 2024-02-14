@@ -32,3 +32,5 @@ calculateUberPrice <- function(distance_km, time_of_day) {
 
   return(total_fare)
 }
+
+

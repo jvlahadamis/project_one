@@ -16,11 +16,11 @@ ui <- fluidPage(
       
       selectInput(inputId = "pickup", 
                   label = "Select pickup location", 
-                  choices = neighborhoods[1]),
+                  choices = nbh),
       
       selectInput(inputId = "dropoff",
                   label = "Select dropoff location",
-                  choices = neighborhoods[1]),
+                  choices = nbh),
       
       actionButton(inputId = "click", 
                    label = "send to mongo")),

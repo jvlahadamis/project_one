@@ -1,14 +1,13 @@
+
+
+
 FROM --platform=linux/amd64 rocker/shiny-verse:latest
 RUN apt-get update && apt-get install -y git
-# Install dependencies
-# Install from local repo 
-# COPY requirements.R /tmp/
-# RUN Rscript /tmp/requirements.R
-# COPY app.R /srv/shiny-server/shiny-stocks/
+
 
 # Install from GitHub repository
-RUN git clone https://github.com/risktoollib/shiny-stocks.git /srv/shiny-server/shiny-stocks
-RUN Rscript /srv/shiny-server/shiny-stocks/requirements.R
+RUN git clone https://github.com/jvlahadamis/project_one.git  /srv/shiny-server/project_one
+
 
 # Make the Shiny app available at port 3838
 EXPOSE 3838

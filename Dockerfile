@@ -1,4 +1,7 @@
+# Use the shiny-verse as a base image
 FROM --platform=linux/amd64 rocker/shiny-verse:latest
+
+# Install dependencies
 RUN apt-get update && apt-get install -y git \
     libssl-dev \
     libcurl4-gnutls-dev \
@@ -12,10 +15,11 @@ RUN apt-get update && apt-get install -y git \
     libssh2-1-dev \
     icu-doc libssl-doc
 
-# Install from GitHub repository
+
+# Install/clone the files from the from GitHub repository
 RUN git clone https://github.com/jvlahadamis/project_one.git /srv/shiny-server/project_one
 
-# Install R dependencies
+# Install R packages contained in the requirements file
 RUN Rscript /srv/shiny-server/project_one/requirements.R
 
 # Make the Shiny app available at port 3838

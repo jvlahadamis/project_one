@@ -42,7 +42,8 @@ server <- function(input, output) {
   
   # Define final expression to calculate final cost of trip.
   final_individual_cost <- reactive({
-    round(calculateUberPrice(distance(),hour(Sys.time())) / filtered_row_count(), 2)
+    dplyr::case_when(round(calculateUberPrice(distance(),hour(Sys.time())) / filtered_row_count(), 2) <= 9999 ~ round(calculateUberPrice(distance(),hour(Sys.time())) / filtered_row_count(), 2),
+                                TRUE ~ round(calculateUberPrice(distance(),hour(Sys.time())), 2))
   })
 
   # Define a reactive expression to filter the data based on user input

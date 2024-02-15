@@ -42,7 +42,7 @@ server <- function(input, output) {
   
   # Define final expression to calculate final cost of trip.
   final_individual_cost <- reactive({
-    round(calculateUberPrice(distance(),lubridate::hour(Sys.time())) / filtered_row_count(), 2)
+    round(calculateUberPrice(distance(),hour(Sys.time())) / filtered_row_count(), 2)
   })
 
   # Define a reactive expression to filter the data based on user input

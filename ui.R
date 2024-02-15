@@ -1,6 +1,17 @@
-ui <- fluidPage(
+
+
+
+ui <- shiny::shinyUI(fluidPage(
+  theme = bslib::bs_theme(bg = "#101010", 
+                          fg = "#FFF", 
+                          primary = "#48DAC6", 
+                          secondary = "#48DAC6", 
+                          base_font = font_google("Open Sans"), 
+                          "progress-bar-bg" = "orange"),
+  
+  
   titlePanel("Uber Ridesharing"),
-  HTML("<p style='font-size: 12px;'>Need a ride, but don't want to pay full price? This app is designed to help you find people in the Edmonton Region who want to take a similar Uber trip as you so you can split the cost! By joining the queue, you consent to receive communications at the phone number entered for the purposes of booking an Uber ride with other users.</p>"),
+  HTML("<p style='font-size: 16px;'>Need a ride, but don't want to pay full price? This app is designed to help you find people in the Edmonton Region who want to take a similar Uber trip as you so you can split the cost! By joining the queue, you consent to receive communications at the phone number entered for the purposes of booking an Uber ride with other users.</p>"),
   sidebarLayout(
     sidebarPanel(
       textInput(inputId = "first", 
@@ -37,4 +48,4 @@ ui <- fluidPage(
              tags$style(HTML(".footer-text { font-size: 9px; }")))
       )
   )
-))
+)))

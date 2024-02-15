@@ -5,6 +5,7 @@ library(shiny)
 library(DT)
 library(geosphere)
 library(lubridate)
+library(bslib)
 
 connection_string <- "mongodb+srv://raolson:PasswordPassword@projectonedatabase.eyzpjva.mongodb.net/"
 nbhTemp <- mongolite::mongo(collection = "neighbourhoods",

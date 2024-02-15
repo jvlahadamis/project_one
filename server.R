@@ -9,10 +9,11 @@ server <- function(input, output) {
   # Define reactive inputs for user input fields
   first <- reactive({ input$first })
   last <- reactive({ input$last })
+  phone <- reactive({ input$phone })
   pickup <- reactive({ input$pickup })
   dropoff <- reactive({ input$dropoff })
   
-  # Define reactive variables for distance calculations in final pricing
+  # Define reactive location variables for distance calculations in final pricing
   pickupLat <- reactive({nbh %>% 
                           dplyr::filter(Neighbourhood == input$pickup) %>% 
                           dplyr::select(Latitude)})
@@ -42,7 +43,7 @@ server <- function(input, output) {
   
   # Define final expression to calculate final cost of trip.
   final_individual_cost <- reactive({
-    dplyr::case_when(round(calculateUberPrice(distance(),hour(Sys.time())) / filtered_row_count(), 2) <= 9999 ~ round(calculateUberPrice(distance(),hour(Sys.time())) / filtered_row_count(), 2),
+    dplyr::case_when(round(calculateUberPrice(distance(),hour(Sys.time())) / filtered_row_count(), 2) <= 9999 ~ round(calculateUberPrice(distance(),hour(Sys.time())) / (filtered_row_count() + 1), 2),
                                 TRUE ~ round(calculateUberPrice(distance(),hour(Sys.time())), 2))
   })
 
@@ -52,29 +53,34 @@ server <- function(input, output) {
     data <- m$find()
     # Filter the data based on pickup and dropoff
     if (!is.null(pickup()) && pickup() != "") {
-      data <- data[data$pickup == pickup(), ]
+      data <- data[data$Pickup == pickup(), ]
     }
     if (!is.null(dropoff()) && dropoff() != "") {
-      data <- data[data$dropoff == dropoff(), ]
+      data <- data[data$Dropoff == dropoff(), ]
     }
     data
   })
 
   # Send data to MongoDB when the user clicks a button
   observeEvent(input$click, {
-    m$insert(data.frame(first = first(),
-                        last = last(),
-                        pickup = pickup(),
-                        dropoff = dropoff()))
+    m$insert(data.frame(First = first(),
+                        Last = last(),
+                        Pickup = pickup(),
+                        Dropoff = dropoff(),
+                        Phone = phone()))
   })
   
   # Render the filtered table
   output$table <- renderDataTable({
     filtered_data()
-  })
+  }, options = list(
+    language = list(
+      emptyTable = "There are no active matches for your ride right now. You can request a solo ride now, or join the queue and wait for a match to contact you."
+    ))
+  )
   
   # Output the filtered row count
   output$cost <- renderText({
-    paste("Final individual cost of trip:", final_individual_cost())
+    paste0("Estimated cost of trip per rider: ", "$", final_individual_cost())
   })
 }

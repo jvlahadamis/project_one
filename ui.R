@@ -26,5 +26,3 @@ ui <- fluidPage(
       textOutput("cost")
   ),
 ))
-
-

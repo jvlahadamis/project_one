@@ -3,23 +3,23 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       textInput(inputId = "first", 
-                label = "Enter first name",
+                label = "Enter First Name",
                 value = ""),
       
       textInput(inputId = "last", 
-                label = "Enter last name",
+                label = "Enter Last Name",
                 value = ""),
       
       selectInput(inputId = "pickup", 
-                  label = "Select pickup location", 
+                  label = "Select Pickup Location", 
                   choices = nbhOnly),
       
       selectInput(inputId = "dropoff",
-                  label = "Select dropoff location",
+                  label = "Select Dropoff Location",
                   choices = nbhOnly),
       
       actionButton(inputId = "click", 
-                   label = "send to mongo")),
+                   label = "Request Rideshare")),
     
     mainPanel(
       dataTableOutput("table"),

@@ -24,7 +24,7 @@ ui <- fluidPage(
     mainPanel(
       dataTableOutput("table"),
       textOutput("filtered_row_count"),
-      uiOutput("distance"))
+      textOutput("distance"))
   ),
   
 )

@@ -45,7 +45,7 @@ server <- function(input, output) {
    d1[1, 1]
   })
 
-  output$distance <- renderUI({distance()})
+  output$distance <- renderText({distance()})
   # Define a reactive expression to count the number of rows in filtered data
   filtered_row_count <- reactive({
     nrow(filtered_data())

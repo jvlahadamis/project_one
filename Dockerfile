@@ -12,14 +12,11 @@ RUN apt-get update && apt-get install -y git \
     libssh2-1-dev \
     icu-doc libssl-doc
 
-
 # Install from GitHub repository
 RUN git clone https://github.com/jvlahadamis/project_one.git /srv/shiny-server/project_one
 
 # Install R dependencies
 RUN Rscript /srv/shiny-server/project_one/requirements.R
-
-
 
 # Make the Shiny app available at port 3838
 EXPOSE 3838

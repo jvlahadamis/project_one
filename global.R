@@ -4,6 +4,7 @@ library(mongolite)
 library(shiny)
 library(DT)
 library(geosphere)
+library(lubridate)
 
 connection_string <- "mongodb+srv://raolson:PasswordPassword@projectonedatabase.eyzpjva.mongodb.net/"
 nbhTemp <- mongolite::mongo(collection = "neighbourhoods",
@@ -15,10 +16,10 @@ nbhOnly <- nbh %>% dplyr::select(Neighbourhood)
 # Expression for calculating fare price, to mimic Uber's own pricing as the firm has not given API access
 calculateUberPrice <- function(distance_km, time_of_day) {
   # Base fare
-  base_fare <- 2.00
+  base_fare <- 2.50
 
   # Cost per kilometer
-  cost_per_km <- 0.75
+  cost_per_km <- 0.85
 
   # Surge multiplier based on time of day
   surge_multiplier <- 1.0

@@ -9,31 +9,42 @@ server <- function(input, output) {
   # Define reactive inputs for user input fields
   first <- reactive({ input$first })
   last <- reactive({ input$last })
-  
-  
-  
   pickup <- reactive({ input$pickup })
+  dropoff <- reactive({ input$dropoff })
+  
+  # Define reactive variables for distance calculations in final pricing
   pickupLat <- reactive({nbh %>% 
                           dplyr::filter(Neighbourhood == input$pickup) %>% 
                           dplyr::select(Latitude)})
   pickupLong <- reactive({nbh %>% 
                            dplyr::filter(Neighbourhood == input$pickup) %>% 
                            dplyr::select(Longitude)})
-  
-  
-  
-  dropoff <- reactive({ input$dropoff })
-  
   dropoffLat <- reactive({nbh %>% 
                            dplyr::filter(Neighbourhood == input$dropoff) %>% 
                            dplyr::select(Latitude)})
-  
   dropoffLong <- reactive({nbh %>% 
                            dplyr::filter(Neighbourhood == input$dropoff) %>% 
                            dplyr::select(Longitude)})
+   
+  # Calculate distance based off user selection
+  distance <- reactive({
+    d1 <- geosphere::distm(c(as.numeric(pickupLong()), as.numeric(pickupLat())), 
+                           c(as.numeric(dropoffLong()), as.numeric(dropoffLat())),
+                           fun = distHaversine)
+    # Convert from meters to kilometers and extract integer
+    d1_km <- d1[1, 1] / 1000
+  })
   
+  # Define a reactive expression to count the number of rows in filtered data
+  filtered_row_count <- reactive({
+    nrow(filtered_data())
+  })
   
-  
+  # Define final expression to calculate final cost of trip.
+  final_individual_cost <- reactive({
+    round(calculateUberPrice(distance(),lubridate::hour(Sys.time())) / filtered_row_count(), 2)
+  })
+
   # Define a reactive expression to filter the data based on user input
   filtered_data <- reactive({
     # Get the data from MongoDB
@@ -47,20 +58,7 @@ server <- function(input, output) {
     }
     data
   })
-  
-  distance <- reactive({
-   d1 <- geosphere::distm(c(as.numeric(pickupLong()), as.numeric(pickupLat())), 
-                     c(as.numeric(dropoffLong()), as.numeric(dropoffLat())),
-                     fun = distHaversine)
-   d1[1, 1]
-  })
 
-  output$distance <- renderText({distance()})
-  # Define a reactive expression to count the number of rows in filtered data
-  filtered_row_count <- reactive({
-    nrow(filtered_data())
-  })
-  
   # Send data to MongoDB when the user clicks a button
   observeEvent(input$click, {
     m$insert(data.frame(first = first(),
@@ -75,12 +73,7 @@ server <- function(input, output) {
   })
   
   # Output the filtered row count
-  output$filtered_row_count <- renderText({
-    paste("Number of rows after filtering:", filtered_row_count())
+  output$cost <- renderText({
+    paste("Final individual cost of trip:", final_individual_cost())
   })
-  
-  output
 }
-
-
-

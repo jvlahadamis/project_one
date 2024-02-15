@@ -9,6 +9,9 @@ server <- function(input, output) {
   # Define reactive inputs for user input fields
   first <- reactive({ input$first })
   last <- reactive({ input$last })
+  
+  
+  
   pickup <- reactive({ input$pickup })
   pickupLat <- reactive({nbh %>% 
                           dplyr::filter(Neighbourhood == input$pickup) %>% 
@@ -16,13 +19,20 @@ server <- function(input, output) {
   pickupLong <- reactive({nbh %>% 
                            dplyr::filter(Neighbourhood == input$pickup) %>% 
                            dplyr::select(Longitude)})
+  
+  
+  
   dropoff <- reactive({ input$dropoff })
+  
   dropoffLat <- reactive({nbh %>% 
                            dplyr::filter(Neighbourhood == input$dropoff) %>% 
                            dplyr::select(Latitude)})
+  
   dropoffLong <- reactive({nbh %>% 
                            dplyr::filter(Neighbourhood == input$dropoff) %>% 
                            dplyr::select(Longitude)})
+  
+  
   
   # Define a reactive expression to filter the data based on user input
   filtered_data <- reactive({
@@ -68,6 +78,8 @@ server <- function(input, output) {
   output$filtered_row_count <- renderText({
     paste("Number of rows after filtering:", filtered_row_count())
   })
+  
+  output
 }
 
 

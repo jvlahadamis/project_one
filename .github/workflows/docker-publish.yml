@@ -2,13 +2,13 @@ name: Publish Docker image to Docker Hub
 
 on: 
     push:
-        branches:
-            - "main"
+        branches: [ main ]
+
 
 jobs:
     build-and-deploy:
         name: Build and Push Docker image
-        runs-on: ubuntu-latest # specify the build machine
+        runs-on: ubuntu-latest
         steps:
             -   
                 name: Checkout
@@ -32,4 +32,4 @@ jobs:
                   context: .
                   file: ./Dockerfile
                   push: true
-                  tags: simon31fu/fin488_project_1:latest
+                  tags: jvlahadamis/app-project_one

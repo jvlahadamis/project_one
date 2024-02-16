@@ -28,4 +28,4 @@ jobs:
                   context: .
                   file: ./Dockerfile
                   push: true
-                  tags: jvlahadamis/app-project_one:none
+                  tags: jvlahadamis/project_one:tagname

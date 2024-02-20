@@ -1,5 +1,5 @@
 # Use the shiny-verse as a base image
-FROM --platform=linux/amd64 rocker/shiny-verse:latest
+FROM rocker/shiny-verse:latest
 
 # Install dependencies
 RUN apt-get update && apt-get install -y git \
